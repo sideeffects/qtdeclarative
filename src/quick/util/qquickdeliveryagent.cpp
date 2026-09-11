@@ -2350,7 +2350,10 @@ bool QQuickDeliveryAgentPrivate::deliverPressOrReleaseEvent(QPointerEvent *event
             handlersOnly = true;
     }
 
-    return event->allPointsAccepted();
+    // Return this because it's true if all events were accepted, rather than
+    // event->allPointsAccepted(), which can be false even if the event was accepted, because the
+    // event points' accepted states are set to false before delivery.
+    return handlersOnly;
 }
 
 /*! \internal
